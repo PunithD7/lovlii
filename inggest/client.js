@@ -1,4 +1,18 @@
 import { Inngest } from "inngest";
+import { serve } from "inngest/next";
 
-// Create a client to send and receive events
-export const inngest = new ({ id: "Lovlii-ecommerce"});
+const inngest = new Inngest({ name: "lovlii-app" });
+
+// Example event handler (you can modify this)
+export const helloWorld = inngest.createFunction(
+  { id: "hello-world" },
+  { event: "test/hello" },
+  async () => {
+    console.log("Hello from Inngest!");
+    return { message: "Success!" };
+  }
+);
+
+export const POST = serve({ client: inngest }, [
+  helloWorld
+]);
